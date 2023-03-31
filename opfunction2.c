@@ -7,6 +7,7 @@
  */
 void push(stack_t **stack, unsigned int line_number)
 {
+
 }
 
 /**
@@ -16,6 +17,20 @@ void push(stack_t **stack, unsigned int line_number)
  */
 void pop(stack_t **stack, unsigned int line_number)
 {
+	stack_t *temp;
+
+	temp = *stack;
+	if (!(*stack))
+	{
+		fprintf(stderr, "L%d: can't pop and empty stack\n", line_number);
+		fclose(file);
+		free_stack(stack);
+		exit(EXIT_FAILURE);
+	}
+	*stack = temp->next;
+	if (*stack)
+		(*stack)->prev = NULL;
+	free(temp);
 }
 
 /**
@@ -25,6 +40,16 @@ void pop(stack_t **stack, unsigned int line_number)
  */
 void swap(stack_t **stack, unsigned int line_number)
 {
+	int temp = (*stack)->n;
+
+	if (!(*stack) || !(*stack)->next)
+	{
+		fprintf(stderr, "L%d: can't swap, stack too short\n", line_number);
+		fclose(file);
+		exit(EXIT_FAILURE);
+	}
+	(*stack)->n = (*stack)->next->n;
+	(*stack)->next->n = temp;
 }
 
 /**
@@ -34,4 +59,17 @@ void swap(stack_t **stack, unsigned int line_number)
  */
 void add(stack_t **stack, unsigned int line_number)
 {
+	stack_t *temp = *stack;
+
+	if (!temp || !temp->next)
+	{
+		fprintf(stderr, "L%d: can't add, stack too short\n", line_number);
+		free_stack(stack);
+		error();
+	}
+
+	temp->next->n += temp->n;
+	*stack = temp->next;
+	(*stack)->prev = NULL;
+	free(temp);
 }
