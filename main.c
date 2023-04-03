@@ -6,6 +6,8 @@
  * @argv: The arguments themselves and what they are worth
  * Return: Sometimes 0 (on Success).
  */
+FILE *file = NULL;
+
 int main(int argc, char **argv)
 {
 	void (*f)(stack_t **, unsigned int) = NULL;
@@ -30,14 +32,14 @@ int main(int argc, char **argv)
 		strcpy(op, token);
 		f = get_func(&stack, line_number, op);
 		if (!f)
-			fprintf(stderr, "Error: malloc failed\n"), err();
+			fprintf(stderr, "Error: malloc failed\n"), error();
 		if (strcmp(op, "push") == 0)
 		{
 			token = strtok(NULL, " \t\n");
 			if (!token)
 			{
 				free(buffer), buffer = NULL, free_stack(&stack);
-				fprintf(stderr, "L%d: usage: push integer\n", line_number), err();
+				fprintf(stderr, "L%d: usage: push integer\n", line_number), error();
 			}
 			strcpy(pushNum, token);
 		}
@@ -75,12 +77,34 @@ void (*get_func(stack_t **stack, int l, char *code))(stack_t **, unsigned int)
 		i++;
 		if (i > 7)
 		{
-			fprintf(stderr, "L%d: unknown instruction %s\n", l, code)
+			fprintf(stderr, "L%d: unknown instruction %s\n", l, code);
 			free_stack(stack);
 			error();
 		}
 	}
 	return (instruction[i].f);
+}
+/**
+ *pushOp - helps the push operation
+ *stack: is a linked list
+ *line_number: is a counter
+ *pushNum: adds to a new node
+ *Return: none
+ */
+void pushOp(stack_t **stack, unsigned int line_number, char *pushNum)
+{
+	if (strcmp(pushNum, "0") == 0)
+		(*stack)->n = 0;
+	if (strcmp(pushNum, "0") != 0)
+	{
+		(*stack)->n = atoi(pushNum);
+		if ((*stack)->n == 0 || (pushNum[0] != '-' && (*stack)->n == -1))
+		{
+			fprintf(stderr, "Error: L%d: usage: push integer\n", line_number);
+			free_stack(stack);
+			error();
+		}
+	}
 }
 /**
  *error - error is bad
@@ -91,5 +115,3 @@ void error(void)
 	fclose(file);
 	exit(EXIT_FAILURE);
 }
-
-
