@@ -38,6 +38,12 @@ typedef struct stack_s
 /*GLOBAL VARIABLE*/
 extern FILE *file;
 
+/*prototypes*/
+void free_stack(stack_t **stack);
+void (*get_func(stack_t **stack, int l, char *code))(stack_t **, unsigned int);
+void error(void);
+void pushOp(stack_t **stack, unsigned int line_number, char *pushNum);
+
 /*opcodes*/
 void push(stack_t **stack, unsigned int line_number);
 void pall(stack_t **stack, unsigned int line_number);
