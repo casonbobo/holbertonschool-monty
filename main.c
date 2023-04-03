@@ -1,13 +1,12 @@
 #include "monty.h"
 
+FILE *file = NULL;
 /**
  * main - Hi Mr. Monty how are you?
  * @argc: The ticker for the arguments who come in
  * @argv: The arguments themselves and what they are worth
  * Return: Sometimes 0 (on Success).
  */
-FILE *file = NULL;
-
 int main(int argc, char **argv)
 {
 	void (*f)(stack_t **, unsigned int) = NULL;
@@ -86,10 +85,9 @@ void (*get_func(stack_t **stack, int l, char *code))(stack_t **, unsigned int)
 }
 /**
  *pushOp - helps the push operation
- *stack: is a linked list
- *line_number: is a counter
- *pushNum: adds to a new node
- *Return: none
+ *@stack: is a linked list
+ *@line_number: is a counter
+ *@pushNum: adds to a new node
  */
 void pushOp(stack_t **stack, unsigned int line_number, char *pushNum)
 {

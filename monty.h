@@ -4,7 +4,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-/* data structures (from intranet)*/
+
+/* data structures*/
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
@@ -34,8 +35,6 @@ typedef struct instruction_s
 	char *opcode;
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
-/*GLOBAL VARIABLE*/
-extern FILE *file;
 
 /*prototypes*/
 void free_stack(stack_t **stack);
@@ -51,4 +50,8 @@ void pop(stack_t **stack, unsigned int line_number);
 void swap(stack_t **stack, unsigned int line_number);
 void add(stack_t **stack, unsigned int line_number);
 void nop(stack_t **stack, unsigned int line_number);
+
+/*global variable*/
+extern FILE *file;
+
 #endif
